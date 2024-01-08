@@ -1,0 +1,19 @@
+version: '3'
+
+
+# run the following in seperate terminals
+# docker compose up --build
+# docker compose exec app /bin/sh
+services:
+  app:
+    image: alpine-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    stdin_open: true
+    tty: true
+    
+    
+    
+   
