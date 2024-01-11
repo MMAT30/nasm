@@ -1,29 +1,28 @@
 SECTION .data
-
 ; declaring a variable - msg
 ; db - define byte
 ; 0Ah - line feed character
 ; msg - 13 bytes long
 msg     db      'Hello World!', 0Ah    
 
-; calculating the length of the msg variable
-msgLen  equ     $ - msg
-
 
 
 SECTION .text
-    ; declaring a label - (_start) - or entry point
+    ; main = _start
     global  _start
  
 _start:
- 
-    mov     edx, 13     ; bytes to write
-    mov     ecx, msg    ; msg address is stored in ecx
-    mov     ebx, 1      ; STDOUT - (file descriptor)
-    mov     eax, 4      ; SYS_WRITE -(kernel opcode 4)
-    int     80h         ; system interrupt
+    ; (op code 4) - write(ebx, ecx, edx)
+    ; (op code 4) - write(unsigned int fd, const char *buf, size_t count)
+    mov     edx, 13     ; size_t count - number of bytes to write
+    mov     ecx, msg    ; const char *buf - pointer to msg
+    mov     ebx, 1      ; unsigned int fd - file descriptor (1 = stdout)
+    mov     eax, 4      ; write op code
+    int     80h         ; interrupt 80h - call kernel
 
 
-    mov     ebx, 0      ; return 0 status on exit
-    mov     eax, 1      ; SYS_EXIT - (kernel opcode 1)
-    int     80h         ; system interrupt
+    ; (op code 1) - exit(ebx)
+    ; (op code 1) - exit(int error_code)
+    mov     ebx, 0      ; int error_code
+    mov     eax, 1      ; exit op code
+    int     80h         ; interrupt 80h - call kernel

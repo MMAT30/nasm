@@ -7,7 +7,9 @@ RUN apk update && apk add --no-cache \
     gdb \
     make \
     libc-dev \
-    file
+    file \
+    curl \
+    && sh -c "$(curl -fsSL https://gef.blah.cat/sh)"
 
 
 COPY . /home
